@@ -1,49 +1,67 @@
-"use client"; // is needed only if you’re using React Server Components
-import { Input } from "@nextui-org/input";
-import { FileUploaderInline } from "@uploadcare/react-uploader";
-import "@uploadcare/react-uploader/core.css";
-import { useEffect, useState } from "react";
-import SimpleMDE from "react-simplemde-editor";
+"use client";
+
+import { useState } from "react";
+import axios from "axios";
+import { Controller, useForm } from "react-hook-form";
+import { UploadButton } from "@/app/utils/uploadthing";
+import { NewPostSchema } from "@/app/utils/zod.validations";
+import { Button, Input } from "@nextui-org/react";
 import "easymde/dist/easymde.min.css";
-import { Button } from "@nextui-org/button";
+import SimpleMDE from "react-simplemde-editor";
+import { z } from "zod";
+
+type postFormType = z.infer<typeof NewPostSchema>;
 
 const PostForm = function () {
 	const [imageUrl, setImageUrl] = useState("");
 
+	const {
+		register,
+		control,
+		reset,
+		handleSubmit,
+		setValue,
+		formState: { errors },
+	} = useForm<postFormType>();
+
+	const onSubmitHandler = (data: postFormType) => {
+		axios.post("/api/posts", data);
+	};
+
 	return (
 		<section>
-			<form action="" className="space-y-3">
-				<FileUploaderInline
-					pubkey={process.env.UPLOADCARE_PUB_KEY!}
-					multiple={false}
-					maxLocalFileSizeBytes={10000000}
-					sourceList="local, camera, instagram"
-					className="w-full border rounded-sm overflow-hidden mb-2"
-				/>
-				<Input label="Title" variant="underlined" />
-				<SimpleMDE
-					placeholder="Post description"
-					options={{
-						toolbar: [
-							"bold",
-							"italic",
-							"heading",
-							"|",
-							"quote",
-							"strikethrough",
-							"code",
-							"ordered-list",
-							"unordered-list",
-							"table",
-							"|",
-							"link",
-							"|",
-							"preview",
-							"guide",
-						],
+			<form className="space-y-3" onSubmit={handleSubmit(onSubmitHandler)}>
+				<UploadButton
+					endpoint="imageUploader"
+					appearance={{
+						clearBtn: "bg-red-500",
+					}}
+					onClientUploadComplete={res => {
+						// Do something with the response
+						console.log("Files: ", res);
+						setValue("imageUrl", res[0].url);
+						setImageUrl(res[0].url);
+					}}
+					onUploadError={(error: Error) => {
+						// Do something with the error.
+						alert(`ERROR! ${error.message}`);
 					}}
 				/>
-				<Button variant="bordered">Upload Post</Button>
+				<Input
+					label="Title"
+					variant="underlined"
+					{...register("title", { required: true })}
+				/>
+				<Controller
+					name="body"
+					control={control}
+					render={({ field }) => (
+						<SimpleMDE {...field} placeholder="Post description" />
+					)}
+				/>
+				<Button type="submit" variant="bordered">
+					Upload Post
+				</Button>
 			</form>
 		</section>
 	);

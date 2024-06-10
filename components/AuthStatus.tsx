@@ -17,7 +17,6 @@ import { User } from "@nextui-org/user";
 import React from "react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-
 const AuthStatus = function () {
 	const { data, status } = useSession();
 
@@ -25,8 +24,8 @@ const AuthStatus = function () {
 		<Dropdown placement="bottom-end">
 			<DropdownTrigger>
 				<User
-					name={<p className="hidden sm:block">{data?.user?.name}</p>}
-					description={<p className="hidden sm:block">{data?.user?.email}</p>}
+					name={<p className="hidden md:block">{data?.user?.name}</p>}
+					description={<p className="hidden md:block">{data?.user?.email}</p>}
 					avatarProps={{
 						src: data?.user?.image!,
 					}}
@@ -40,6 +39,7 @@ const AuthStatus = function () {
 						key="profile"
 						startContent={<UserIcon className="w-5 h-5" />}
 						href="/profile"
+						as={Link}
 					>
 						Profile
 					</DropdownItem>
@@ -47,6 +47,7 @@ const AuthStatus = function () {
 						key="setting"
 						startContent={<SettingIcon className="w-5 h-5" />}
 						href="/setting"
+						as={Link}
 					>
 						Setting
 					</DropdownItem>
@@ -54,6 +55,8 @@ const AuthStatus = function () {
 						key="help_and_feedback"
 						showDivider
 						startContent={<QuestionMarkIcon className="w-5 h-5" />}
+						as={Link}
+						href="/help-and-feedback"
 					>
 						Help & Feedback
 					</DropdownItem>

@@ -28,12 +28,17 @@ const nextConfig = {
 		return config;
 	},
 	images: {
-		domains: ["nextui.org", "https://nextui.org/", "https://nextui.org/images"],
+		domains: [
+			"nextui.org",
+			"utfs.io",
+			"https://nextui.org/",
+			"https://nextui.org/images",
+		],
 		remotePatterns: [
 			{
 				protocol: "https",
 				hostname: "utfs.io",
-				pathname: "/a/<APP_ID>/*",
+				pathname: "/f/<APP_ID>/*",
 			},
 		],
 	},

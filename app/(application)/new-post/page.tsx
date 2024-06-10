@@ -2,11 +2,7 @@ import React from "react";
 import PostForm from "../components/PostForm";
 
 const NewPostPage = function () {
-	return (
-		<div>
-			<PostForm />
-		</div>
-	);
+	return <PostForm />;
 };
 
 export default NewPostPage;

@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import { connectDB } from "@/app/lib/connectDB";
 import prisma from "@/prisma/client";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { NextAuthOptions } from "next-auth";
+import { getServerSession, NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 const authOptions: NextAuthOptions = {
@@ -35,11 +35,29 @@ const authOptions: NextAuthOptions = {
 			},
 		}),
 	],
+	callbacks: {
+		session: async ({ session, token }) => {
+			if (session?.user) {
+				session.user.id = token.sub;
+			}
+			return session;
+		},
+		jwt: async ({ user, token }) => {
+			if (user) {
+				token.uid = user.id;
+			}
+
+			return token;
+		},
+	},
+
 	session: { strategy: "jwt" },
 	secret: process.env.NEXTAUTH_SECRET,
 	pages: {
 		signIn: "/login",
 	},
 };
+
+export const getServerAuthSession = () => getServerSession(authOptions);
 
 export default authOptions;

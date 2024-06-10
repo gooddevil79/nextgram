@@ -12,10 +12,10 @@ const RegisterUser = z.object({
 	confirmPassword: z.string().min(5, "Password must be at least 5 Characters"),
 });
 
-const Post = z.object({
-	image: z.string(),
+const NewPostSchema = z.object({
+	imageUrl: z.string(),
 	title: z.string().min(3),
-	description: z.string().min(3),
+	body: z.string().min(3),
 });
 
-export { RegisterUser, Post };
+export { RegisterUser, NewPostSchema };
