@@ -24,6 +24,7 @@ export const siteConfig = {
 	],
 	links: {
 		github: "https://github.com/gooddevil79",
+		repo: "https://github.com/gooddevil79/nextgram",
 		twitter: "https://twitter.com/getnextui",
 		docs: "https://nextui.org",
 		discord: "https://discord.gg/9b6yyZKmH4",

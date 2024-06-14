@@ -1,4 +1,5 @@
 "use client";
+import { ThemeSwitch } from "@/components/theme-switch";
 import { RadioGroup, Radio } from "@nextui-org/radio";
 import { Select, SelectItem } from "@nextui-org/select";
 import React from "react";
@@ -14,7 +15,7 @@ const SettingForm = function () {
 					<Radio value="london">London</Radio>
 					<Radio value="tokyo">Tokyo</Radio>
 				</RadioGroup>
-				<Select
+				{/* <Select
 					label="Chose your perfer theme:"
 					labelPlacement="outside"
 					className="max-w-xs"
@@ -22,7 +23,11 @@ const SettingForm = function () {
 					<SelectItem value="dark" key={"dark"}>
 						Dark
 					</SelectItem>
-				</Select>
+				</Select> */}
+				<label className="flex text-slate-500 gap-5">
+					<h1>Change theme : </h1>
+					<ThemeSwitch />
+				</label>
 			</div>
 		</form>
 	);
