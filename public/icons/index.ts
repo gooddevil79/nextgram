@@ -12,3 +12,4 @@ export { default as LikeIcon } from "./ThumbsUp.svg";
 export { default as DislikeIcon } from "./ThumbsDown.svg";
 export { default as UserPlusIcon } from "./UserPlus.svg";
 export { default as ChatCircleDotsIcon } from "./ChatCircleDots.svg";
+export { default as ArrowUUpLeftIcon } from "./ArrowUUpLeft.svg";

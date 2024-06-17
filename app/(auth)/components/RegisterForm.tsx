@@ -66,14 +66,14 @@ const LoginForm = function () {
 							clearBtn: "bg-red-500",
 						}}
 						onClientUploadComplete={res => {
-							// Do something with the response
-							console.log("Files: ", res);
 							setValue("image", res[0].url);
 							setProfileImage(res[0].url);
+							toast.success("Image uploaded");
 						}}
 						onUploadError={(error: Error) => {
-							// Do something with the error.
-							alert(`ERROR! ${error.message}`);
+							toast.error(
+								"Uploadthings: Faild to upload image, please try later"
+							);
 						}}
 					/>
 				</div>

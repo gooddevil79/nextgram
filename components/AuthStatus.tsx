@@ -39,7 +39,9 @@ const AuthStatus = function () {
 						<User
 							name={<p className="hidden md:block">{data?.user?.name}</p>}
 							description={
-								<p className="hidden md:block">{data?.user?.email}</p>
+								<p className="hidden md:block dark:text-gray-300">
+									{data?.user?.email}
+								</p>
 							}
 							avatarProps={{
 								src: data?.user?.image!,

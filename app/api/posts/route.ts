@@ -1,11 +1,8 @@
 import { connectDB } from "@/app/lib/connectDB";
-import { getServerSession } from "next-auth";
-import { getToken } from "next-auth/jwt";
-import { getSession } from "next-auth/react";
+import prisma from "@/prisma/client";
 import { redirect } from "next/navigation";
 import { NextRequest, NextResponse } from "next/server";
 import { getServerAuthSession } from "../auth/[...nextauth]/authOptions";
-import prisma from "@/prisma/client";
 
 export async function GET(request: NextRequest) {
 	try {

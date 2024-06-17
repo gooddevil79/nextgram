@@ -23,5 +23,5 @@ export default withUt({
 		},
 	},
 	darkMode: "class",
-	plugins: [nextui()],
+	plugins: [nextui(), require("@tailwindcss/typography")],
 });

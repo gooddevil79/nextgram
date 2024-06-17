@@ -1,7 +1,6 @@
-import { title } from "@/components/primitives";
 import prisma from "@/prisma/client";
 import { ChatCircleDotsIcon, DislikeIcon, LikeIcon } from "@/public/icons";
-import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Divider, Link } from "@nextui-org/react";
 import { User } from "@nextui-org/user";
 import { Post } from "@prisma/client";
@@ -15,10 +14,12 @@ const PostList = async function () {
 			include: { author: true },
 		});
 	} catch (error) {}
+	console.log(posts);
+
 	return (
 		<>
 			{posts?.map(post => (
-				<Card key={post.id}>
+				<Card key={post.id} isHoverable>
 					<CardHeader className=" flex-col items-start">
 						<User
 							name={post.author.name}
@@ -38,16 +39,18 @@ const PostList = async function () {
 						/>
 					</CardHeader>
 					<Divider />
-					<CardBody className="overflow-visible py-2">
-						<p className="text-tiny uppercase font-bold">{post.title}</p>
-						<Image
-							alt="Card background"
-							className="object-cover rounded-xl w-full h-28 "
-							src={post.imageUrl || ""}
-							width={270}
-							height={270}
-						/>
-					</CardBody>
+					<NextLink href={`/${post.id}`}>
+						<CardBody className="overflow-visible py-2">
+							<p className="text-tiny uppercase font-bold">{post.title}</p>
+							<Image
+								alt="Card background"
+								className="object-cover rounded-xl w-full h-28 "
+								src={post.imageUrl || ""}
+								width={270}
+								height={270}
+							/>
+						</CardBody>
+					</NextLink>
 					<CardFooter className="flex items-center justify-between">
 						<div className="flex">
 							<LikeIcon className="w-6 h-6 " />

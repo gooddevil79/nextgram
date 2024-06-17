@@ -17,20 +17,22 @@ import clsx from "clsx";
 import NextLink from "next/link";
 import AuthStatus from "./AuthStatus";
 import { Link } from "@nextui-org/link";
+import { usePathname, useRouter } from "next/navigation";
 
 export const Navbar = () => {
+	const pathname = usePathname();
 	return (
 		<NextUINavbar maxWidth="2xl" position="sticky" className="shadow-sm">
 			<NavbarContent className="basis-1/5 sm:basis-full" justify="start">
 				<NavbarBrand as="li" className="gap-3 max-w-fit">
 					<NextLink className="flex justify-start items-center gap-1" href="/">
-						<Logo className="w-10 h-10" color="white" />
+						<Logo className="w-10 h-10" />
 						<p className="font-bold text-inherit">{siteConfig.name}</p>
 					</NextLink>
 				</NavbarBrand>
 				<ul className="hidden md:flex  gap-4 ">
 					{siteConfig.menuItems.map(({ href, label, icon: MenuIcon }) => (
-						<NavbarItem key={href}>
+						<NavbarItem key={href} isActive={pathname === href}>
 							<Link
 								className={clsx(
 									linkStyles({ color: "foreground" }),
@@ -38,6 +40,7 @@ export const Navbar = () => {
 								)}
 								href={href}
 								as={NextLink}
+								underline={pathname === href ? "none" : "always"}
 							>
 								{MenuIcon && <MenuIcon className="w-5 h-5" />}
 								{label}
