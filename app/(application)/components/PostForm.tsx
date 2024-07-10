@@ -2,11 +2,12 @@
 
 import { UploadButton } from "@/app/utils/uploadthing";
 import { NewPostSchema } from "@/app/utils/zod.validations";
-import { Button, Image, Input } from "@nextui-org/react";
-import axios from "axios";
+import { Button, Image, Input, Spacer } from "@nextui-org/react";
+import { Post } from "@prisma/client";
+import axios, { AxiosError } from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import SimpleMDE from "react-simplemde-editor";
@@ -14,7 +15,7 @@ import { z } from "zod";
 
 type postFormType = z.infer<typeof NewPostSchema>;
 
-const PostForm = function () {
+const PostForm = function ({ post }: { post: Post | null }) {
 	const [imageUrl, setImageUrl] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const router = useRouter();
@@ -28,17 +29,28 @@ const PostForm = function () {
 		formState: { errors },
 	} = useForm<postFormType>();
 
+	useEffect(() => {
+		if (post) {
+			setValue("body", post.body);
+			setValue("title", post.title);
+			setValue("imageUrl", post.imageUrl || "");
+			setImageUrl(post.imageUrl || "");
+		}
+	}, [post, setValue]);
+
 	const onSubmitHandler = async (data: postFormType) => {
 		setIsSubmitting(true);
 		try {
-			const res = await axios.post("/api/posts", data);
+			const action = post
+				? axios.put("/api/posts", data)
+				: axios.post("/api/posts", data);
+			const res = await action;
 			console.log(res.data.message);
 			toast.success("Created");
 			router.push("/");
 			router.refresh();
 		} catch (error) {
-			console.log(error);
-			toast.error("Faild to Create Post");
+			toast.error(error?.response?.data?.message);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -89,15 +101,29 @@ const PostForm = function () {
 							/>
 						)}
 					/>
-					<Button
-						type="submit"
-						variant="bordered"
-						className="w-full sm:w-auto"
-						isLoading={isSubmitting}
-						isDisabled={isSubmitting}
-					>
-						Upload Post
-					</Button>
+					<div className="flex gap-2">
+						<Button
+							type="submit"
+							variant="bordered"
+							className="w-full sm:w-auto"
+							isLoading={isSubmitting}
+							isDisabled={isSubmitting}
+						>
+							{post ? "Update Post" : "Upload Post"}
+						</Button>
+						{post && (
+							<Button
+								type="submit"
+								variant="bordered"
+								color="danger"
+								className="w-full sm:w-auto"
+								isLoading={isSubmitting}
+								isDisabled={isSubmitting}
+							>
+								Delete Post
+							</Button>
+						)}
+					</div>
 				</div>
 			</form>
 		</section>

@@ -1,13 +1,8 @@
 import prisma from "@/prisma/client";
-import {
-	ArrowUUpLeftIcon,
-	ChatCircleDotsIcon,
-	DislikeIcon,
-	LikeIcon,
-} from "@/public/icons";
-
-import { Button, Divider, Image, User } from "@nextui-org/react";
+import { ChatCircleDotsIcon, DislikeIcon, LikeIcon } from "@/public/icons";
+import { Divider, Image, User } from "@nextui-org/react";
 import ReactMarkdown from "react-markdown";
+import GoBackButton from "../components/GoBackButton";
 
 const PostDetailsPage = async function ({
 	params: { postId },
@@ -21,9 +16,7 @@ const PostDetailsPage = async function ({
 
 	return (
 		<div className="space-y-2">
-			<Button variant="bordered" isIconOnly className="mb-2">
-				<ArrowUUpLeftIcon className="w-7 h-7" />
-			</Button>
+			<GoBackButton />
 			<Image
 				src={post?.imageUrl!}
 				width={1920}

@@ -5,6 +5,7 @@ import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
 import { Divider, Image } from "@nextui-org/react";
 import { Post } from "@prisma/client";
 import axios from "axios";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function Home() {
@@ -48,22 +49,7 @@ export default function Home() {
 				{posts?.map((post: Post) => (
 					<Card key={post.id}>
 						<CardHeader className=" flex-col items-start">
-							{/* <User
-							name={post.author.name}
-							description={
-								<Link
-									href="https://twitter.com/jrgarciadev"
-									size="sm"
-									isExternal
-									as={NextLink}
-								>
-									{`@${post.author.username}`}
-								</Link>
-							}
-							avatarProps={{
-								src: post.author.image || undefined,
-							}}
-						/> */}
+							<Link href={`/${post.id}/edit`}>Edit</Link>
 						</CardHeader>
 						<Divider />
 						<CardBody className="overflow-visible py-2">
