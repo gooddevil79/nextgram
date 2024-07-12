@@ -2,9 +2,9 @@
 
 import { UploadButton } from "@/app/utils/uploadthing";
 import { NewPostSchema } from "@/app/utils/zod.validations";
-import { Button, Image, Input, Spacer } from "@nextui-org/react";
+import { Button, Image, Input } from "@nextui-org/react";
 import { Post } from "@prisma/client";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import "easymde/dist/easymde.min.css";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -15,7 +15,7 @@ import { z } from "zod";
 
 type postFormType = z.infer<typeof NewPostSchema>;
 
-const PostForm = function ({ post }: { post: Post | null }) {
+const PostForm = function ({ post }: { post?: Post }) {
 	const [imageUrl, setImageUrl] = useState("");
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const router = useRouter();
@@ -42,15 +42,16 @@ const PostForm = function ({ post }: { post: Post | null }) {
 		setIsSubmitting(true);
 		try {
 			const action = post
-				? axios.put("/api/posts", data)
+				? axios.put(`/api/posts/${post.id}`, data)
 				: axios.post("/api/posts", data);
 			const res = await action;
-			console.log(res.data.message);
-			toast.success("Created");
+			toast.success(res.data.message);
 			router.push("/");
 			router.refresh();
 		} catch (error) {
-			toast.error(error?.response?.data?.message);
+			if (axios.isAxiosError(error)) {
+				toast.error(error?.response?.data?.message);
+			}
 		} finally {
 			setIsSubmitting(false);
 		}

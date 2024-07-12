@@ -28,12 +28,19 @@ const LoginForm = function () {
 				redirect: false,
 			});
 			if (res?.status === 401) {
-				throw new Error("Wrong username or passowr");
+				throw new Error("Wrong username or password");
+			}
+			if (res?.status === 500) {
+				throw new Error("Something goes wrong in the server");
 			}
 			router.push("/");
 		} catch (error) {
 			setIsSubmitting(false);
-			console.log(error);
+			if (error instanceof Error) {
+				toast.error(error.message);
+			} else {
+				toast.error("An unexpected error occurred");
+			}
 		}
 	};
 
@@ -44,16 +51,20 @@ const LoginForm = function () {
 					type="text"
 					variant="bordered"
 					label="Username or Email"
-					{...register("username", { required: true })}
+					{...register("username", {
+						required: { value: true, message: "This field is required" },
+					})}
 				/>
 				{errors.username && (
-					<small className="text-red-500">This field is required</small>
+					<small className="text-red-500">{errors.username.message}</small>
 				)}
 				<Input
 					type="password"
 					variant="bordered"
 					label="Password"
-					{...register("password", { required: true })}
+					{...register("password", {
+						required: { value: true, message: "This field is required" },
+					})}
 				/>
 				{errors.password && (
 					<small className="text-red-500">{errors.password.message}</small>

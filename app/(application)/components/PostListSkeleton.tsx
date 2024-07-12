@@ -14,7 +14,7 @@ const PostListSkeleton = function () {
 					<Skeleton className="rounded-xl w-full h-28" />
 				</CardBody>
 				<CardFooter className="flex items-center justify-between">
-					<Skeleton className="h-5 w-full" />
+					<Skeleton className="h-5 w-full rounded-md" />
 				</CardFooter>
 			</Card>
 			<Card>

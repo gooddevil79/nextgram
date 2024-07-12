@@ -1,25 +1,9 @@
-"use client";
-
-import { ChatCircleDotsIcon, DislikeIcon, LikeIcon } from "@/public/icons";
-import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/card";
-import { Divider, Image } from "@nextui-org/react";
-import { Post } from "@prisma/client";
-import axios from "axios";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import { Card, CardHeader } from "@nextui-org/card";
+import { Divider } from "@nextui-org/react";
+import MyPostList from "./components/MyPostList";
+import { Suspense } from "react";
 
 export default function Home() {
-	const [posts, setPosts] = useState([]);
-	const fetchUserPost = async () => {
-		try {
-			const res = await axios.get("/api/user/posts");
-			setPosts(res.data.posts);
-		} catch (error) {}
-	};
-	useEffect(() => {
-		fetchUserPost();
-	}, []);
-
 	return (
 		<div className="space-y-3">
 			<div className="grid md:grid-cols-3 gap-2 ">
@@ -45,40 +29,9 @@ export default function Home() {
 
 			<h2>My Posts :</h2>
 			<Divider />
-			<div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
-				{posts?.map((post: Post) => (
-					<Card key={post.id}>
-						<CardHeader className=" flex-col items-start">
-							<Link href={`/${post.id}/edit`}>Edit</Link>
-						</CardHeader>
-						<Divider />
-						<CardBody className="overflow-visible py-2">
-							<p className="text-tiny uppercase font-bold">{post.title}</p>
-							<Image
-								alt="Card background"
-								className="object-cover rounded-xl w-full h-28 "
-								src={post.imageUrl || ""}
-								width={270}
-								height={270}
-							/>
-						</CardBody>
-						<CardFooter className="flex items-center justify-between">
-							<div className="flex">
-								<LikeIcon className="w-6 h-6 " />
-								<DislikeIcon className="w-6 h-6 scale-x-[-1]" />
-							</div>
-							<div className="flex items-center gap-1">
-								<p className="font-semibold text-default-400 text-small">
-									97.1K
-								</p>
-								<p className="text-default-400 text-small">
-									<ChatCircleDotsIcon className="w-6 h-6 " />
-								</p>
-							</div>
-						</CardFooter>
-					</Card>
-				))}
-			</div>
+			<Suspense fallback={<p>Loading</p>}>
+				<MyPostList />
+			</Suspense>
 		</div>
 	);
 }

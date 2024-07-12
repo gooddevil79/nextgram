@@ -13,8 +13,8 @@ const PostList = async function () {
 		posts = await prisma.post.findMany({
 			include: { author: true },
 		});
+		console.log(posts);
 	} catch (error) {}
-	console.log(posts);
 
 	return (
 		<>
@@ -22,7 +22,7 @@ const PostList = async function () {
 				<Card key={post.id} isHoverable>
 					<CardHeader className=" flex-col items-start">
 						<User
-							name={post.author.name}
+							name={post?.author?.name}
 							description={
 								<Link
 									href="https://twitter.com/jrgarciadev"
