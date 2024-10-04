@@ -1,0 +1,30 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+# # Define color codes
+# RED='\033[0;31m'      # Red
+# GREEN='\033[0;32m'    # Green
+# YELLOW='\033[0;33m'   # Yellow
+# NC='\033[0m'          # No Color
+# GREEN_BGBLACK='\033[30;42m'
+# BLACK_BGRED='\033[30;41m'
+
+# printf "${YELLOW}Linting...\n${NC}"
+# if ! pnpm run lint; then
+#   printf "${BLACK_BGRED}Linting failed. Please fix the issues above.${NC}\n"
+#   exit 1
+# fi
+
+# printf "${YELLOW}Type checking...${NC}\n"
+# if ! pnpm run typecheck; then
+#   printf "${BLACK_BGRED}Type checking failed. Please fix the issues above.${NC}\n"
+#   exit 1
+# fi
+
+# printf "${YELLOW}Spell checking...\n${NC}"
+# if ! pnpm run spellcheck; then
+#   printf "${BLACK_BGRED}cspell failed. Please correct the words above.${NC}\n"
+#   exit 1
+# fi
+
+# printf "${GREEN_BGBLACK}All steps passed, clear to commit!${NC}\n"
